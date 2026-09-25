@@ -80,10 +80,16 @@ public class Library {
     static void addBook(Book[] books, int[] booksBorrowingStatus, int bookCount) {
         String title = IO.readln("Enter the title of the book: ");
         String author = IO.readln("Enter the author of the book: ");
-        int isbn = Integer.parseInt(IO.readln("Enter the ISBN of the book: "));
-        books[bookCount] = new Book(title, author, isbn);
+        try {
+            int isbn = Integer.parseInt(IO.readln("Enter the ISBN of the book: "));
+            books[bookCount] = new Book(title, author, isbn);
+        }
+        catch (IllegalArgumentException e) {
+            IO.println("Invalid ISBN. Please try again.");
+        }
         if (bookCount > 0)
             booksBorrowingStatus[bookCount + 1] = bookCount;
+        IO.println("The book has been added");
     }
 
     static void registerMember(Member[] members, int memberCount) {
