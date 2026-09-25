@@ -10,7 +10,6 @@ public class Library {
 
         setInitialValuesForBorrowingStatus(booksBorrowingStatus);
 
-
     }
 
     static void printMenu() {
@@ -64,6 +63,7 @@ public class Library {
                     if (members[j].getMembershipNumber() == membershipNumber) {
                         if (members[j].isAllowedToBorrow()) {
                             booksBorrowingStatus[i + 1] = j;
+                            members[j].addNumberOfBooksBorrowed();
                             IO.println("The book has been borrowed");
                         }
                         else
@@ -91,4 +91,14 @@ public class Library {
         }
     }
 
+    static void searchBook(Book[] books, int bookCount) {
+        String search = IO.readln("Enter the title or author of the book you want to search for: ");
+        for (int i = 0; i <= bookCount; i++) {
+            if (books[i].getTitle().contains(search) || books[i].getAuthor().contains(search)) {
+                IO.println("Book found: " + books[i].getTitle() + " by " + books[i].getAuthor() +
+                        " with ISBN: " + books[i].getIsbn());
+            }
+        }
+        IO.println("No book matching the search was found");
+    }
 }

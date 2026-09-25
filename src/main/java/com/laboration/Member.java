@@ -20,7 +20,7 @@ public class Member {
     }
 
     public void addNumberOfBooksBorrowed() {
-        numberOfBooksBorrowed = numberOfBooksBorrowed + 1;
+        this.numberOfBooksBorrowed = this.numberOfBooksBorrowed + 1;
     }
 
     public boolean isAllowedToBorrow() {
