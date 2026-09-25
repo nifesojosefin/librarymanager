@@ -10,6 +10,52 @@ public class Library {
 
         setInitialValuesForBorrowingStatus(booksBorrowingStatus);
 
+        while (true) {
+            printMenu();
+            String choice = IO.readln("Enter your choice: ");
+            if (choice.equals("1")) {
+                addBook(books, booksBorrowingStatus, bookCount);
+                bookCount++;
+            }
+            else if (choice.equals("2")) {
+                registerMember(members, memberCount);
+                memberCount++;
+            }
+            else if (choice.equals("3")) {
+                if (bookCount > 0 && memberCount > 0)
+                    borrowBook(books, bookCount, members, memberCount, booksBorrowingStatus);
+                else
+                    IO.println("Invalid operation. Please add books and members first.");
+            }
+            else if (choice.equals("4")) {
+                for (int i = 1; i <= bookCount; i = i + 2) {
+                    if (booksBorrowingStatus[i] != -1)
+                        returnBook(books, bookCount, booksBorrowingStatus);
+                    else
+                        IO.println("Invalid operation. There are no borrowed books to return.");
+                }
+            }
+            else if (choice.equals("5")) {
+                if (bookCount > 0)
+                    searchBook(books, bookCount);
+                else
+                    IO.println("Invalid operation. There are no books to search.");
+            }
+            else if (choice.equals("6")) {
+                if (bookCount > 0)
+                    printAllBooks(books, bookCount, members, booksBorrowingStatus);
+                else
+                    IO.println("Invalid operation. There are no books to show.");
+            }
+            else if (choice.equalsIgnoreCase("e")) {
+                IO.println("Exiting the program...");
+                return;
+            }
+            else
+                IO.println("Invalid choice. Please try again.");
+
+            IO.println();
+        }
     }
 
     static void printMenu() {
@@ -100,5 +146,18 @@ public class Library {
             }
         }
         IO.println("No book matching the search was found");
+    }
+
+    static void printAllBooks(Book[] books, int bookCount, Member[] members, int[] booksBorrowingStatus) {
+        for (int i = 0; i <= bookCount; i++) {
+            IO.print(i+1 + ". Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
+                    ", ISBN: " + books[i].getIsbn());
+            if (booksBorrowingStatus[i+1] != -1) {
+                IO.println(". Status: borrowed by member number: " + members[booksBorrowingStatus[i+1]].getMembershipNumber() +
+                        " (" + members[booksBorrowingStatus[i+1]].getName() + ")");
+            }
+            else
+                IO.println(". Status: available to borrow");
+        }
     }
 }
