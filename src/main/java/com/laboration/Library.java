@@ -17,8 +17,7 @@ public class Library {
                 bookCount = addBook(books, booksBorrowingStatus, bookCount);
             }
             else if (choice.equals("2")) {
-                registerMember(members, memberCount);
-                memberCount++;
+                memberCount = registerMember(members, memberCount);
             }
             else if (choice.equals("3")) {
                 if (bookCount > 0 && memberCount > 0)
@@ -93,18 +92,19 @@ public class Library {
         return bookCount;
     }
 
-    static void registerMember(Member[] members, int memberCount) {
+    static int registerMember(Member[] members, int memberCount) {
         int membershipNumber = Integer.parseInt(IO.readln("Enter the membership number for the person: "));
-        for (int i = 0; i < memberCount; i++) {
-            if (members[i].getMembershipNumber() == membershipNumber) {
-                IO.println("The membership number already exists");
+        String name = IO.readln("Enter the name of the person: ");
+        if (memberCount > 0)
+            for (int i = 0; i < memberCount; i++) {
+                if (members[i].getMembershipNumber() == membershipNumber) {
+                    IO.println("The membership number already exists");
+                    return memberCount;
+                }
             }
-            else {
-                String name = IO.readln("Enter the name of the person: ");
-                members[memberCount] = new Member(membershipNumber, name);
-                IO.println("The member has been registered");
-            }
-        }
+        members[memberCount] = new Member(membershipNumber, name);
+        IO.println("The member has been registered");
+        return ++memberCount;
     }
 
     static void borrowBook(Book[] books, int bookCount, Member[] members, int memberCount, int[] booksBorrowingStatus) {
