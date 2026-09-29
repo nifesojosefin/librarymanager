@@ -6,7 +6,7 @@ public class Member {
     private int numberOfBooksBorrowed;
 
     public Member(int membershipNumber, String name) {
-        if (isValidMembershipNumber())
+        if (isValidMembershipNumber(membershipNumber))
             this.membershipNumber = membershipNumber;
         else
             throw new IllegalArgumentException();
@@ -30,7 +30,7 @@ public class Member {
         return numberOfBooksBorrowed <= 5;
     }
 
-    public boolean isValidMembershipNumber() {
+    public boolean isValidMembershipNumber(int membershipNumber) {
         return membershipNumber >= 1 && membershipNumber <= 10000;
     }
 }

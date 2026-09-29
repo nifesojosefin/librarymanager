@@ -19,6 +19,8 @@ public class Library {
                 bookCount = addBook(books, booksBorrowingStatus, bookCount);
             }
             else if (choice.equals("2")) {
+                if (memberCount == members.length)
+                    members = expandMembersArray(members);
                 memberCount = registerMember(members, memberCount);
             }
             else if (choice.equals("3")) {
@@ -189,5 +191,13 @@ public class Library {
             newBooks[i] = books[i];
         }
         return newBooks;
+    }
+
+    static Member[] expandMembersArray(Member[] members) {
+        Member[] newMembers = new Member[members.length * 2];
+        for (int i = 0; i < members.length; i++) {
+            newMembers[i] = members[i];
+        }
+        return newMembers;
     }
 }
