@@ -26,12 +26,14 @@ public class Library {
                     IO.println("Invalid operation. Please add books and members first.");
             }
             else if (choice.equals("4")) {
-                for (int i = 1; i <= bookCount; i = i + 2) {
-                    if (booksBorrowingStatus[i] != -1)
-                        returnBook(books, bookCount, booksBorrowingStatus);
-                    else
-                        IO.println("Invalid operation. There are no borrowed books to return.");
+                if (bookCount > 0) {
+                    for (int i = 1; i <= bookCount; i = i + 2) {
+                        if (booksBorrowingStatus[i] != -1)
+                            returnBook(books, bookCount, booksBorrowingStatus);
+                    }
                 }
+                else
+                    IO.println("Invalid operation. There are no borrowed books to return.");
             }
             else if (choice.equals("5")) {
                 if (bookCount > 0)
@@ -93,12 +95,12 @@ public class Library {
     }
 
     static int registerMember(Member[] members, int memberCount) {
-        int membershipNumber = Integer.parseInt(IO.readln("Enter the membership number for the person: "));
         String name = IO.readln("Enter the name of the person: ");
+        int membershipNumber = Integer.parseInt(IO.readln("Enter the membership number for the person: "));
         if (memberCount > 0)
             for (int i = 0; i < memberCount; i++) {
                 if (members[i].getMembershipNumber() == membershipNumber) {
-                    IO.println("The membership number already exists");
+                    IO.println("The membership number already exists. Please try again");
                     return memberCount;
                 }
             }
@@ -112,7 +114,7 @@ public class Library {
         for (int i = 0; i < bookCount; i++) {
             if (books[i].getTitle().equals(title) && booksBorrowingStatus[i+1] == -1) {
                 int membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
-                for (int j = 0; j <= memberCount; j++) {
+                for (int j = 0; j < memberCount; j++) {
                     if (members[j].getMembershipNumber() == membershipNumber) {
                         if (members[j].isAllowedToBorrow()) {
                             booksBorrowingStatus[i + 1] = j;
