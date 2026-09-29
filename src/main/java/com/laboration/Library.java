@@ -83,13 +83,13 @@ public class Library {
         try {
             int isbn = Integer.parseInt(IO.readln("Enter the ISBN of the book: "));
             books[bookCount] = new Book(title, author, isbn);
+            IO.println("The book has been added");
+            if (bookCount > 0)
+                booksBorrowingStatus[bookCount + 1] = bookCount;
         }
         catch (IllegalArgumentException e) {
             IO.println("Invalid ISBN. Please try again.");
         }
-        if (bookCount > 0)
-            booksBorrowingStatus[bookCount + 1] = bookCount;
-        IO.println("The book has been added");
     }
 
     static void registerMember(Member[] members, int memberCount) {
@@ -159,7 +159,8 @@ public class Library {
             IO.print(i+1 + ". Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
                     ", ISBN: " + books[i].getIsbn());
             if (booksBorrowingStatus[i+1] != -1) {
-                IO.println(". Status: borrowed by member number: " + members[booksBorrowingStatus[i+1]].getMembershipNumber() +
+                IO.println(". Status: borrowed by member number: " +
+                        members[booksBorrowingStatus[i+1]].getMembershipNumber() +
                         " (" + members[booksBorrowingStatus[i+1]].getName() + ")");
             }
             else
