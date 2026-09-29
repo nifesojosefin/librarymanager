@@ -4,7 +4,7 @@ public record Book(String title, String author, String isbn) {
     public Book(String title, String author, String isbn) {
         this.title = title;
         this.author = author;
-        if (isbn.length() == 10 || isbn.length() == 13)
+        if (isValidIsbn(isbn))
             this.isbn = isbn;
         else
             throw new IllegalArgumentException();
@@ -20,5 +20,14 @@ public record Book(String title, String author, String isbn) {
 
     public String getIsbn() {
         return isbn;
+    }
+
+    private boolean isValidIsbn(String isbn) {
+        if (isbn.length() == 10 || isbn.length() == 13)
+            for (int i = 0; i < isbn.length(); i ++) {
+                if (Character.isDigit(isbn.charAt(i)))
+                    return true;
+            }
+        return false;
     }
 }
