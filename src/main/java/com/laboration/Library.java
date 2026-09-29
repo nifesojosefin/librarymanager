@@ -81,7 +81,7 @@ public class Library {
         String title = IO.readln("Enter the title of the book: ");
         String author = IO.readln("Enter the author of the book: ");
         try {
-            int isbn = Integer.parseInt(IO.readln("Enter the ISBN of the book: "));
+            String isbn = IO.readln("Enter the ISBN of the book: ");
             books[bookCount] = new Book(title, author, isbn);
             IO.println("The book has been added");
             if (bookCount > 0)
@@ -94,7 +94,7 @@ public class Library {
 
     static void registerMember(Member[] members, int memberCount) {
         int membershipNumber = Integer.parseInt(IO.readln("Enter the membership number for the person: "));
-        for (int i = 0; i <= memberCount; i++) {
+        for (int i = 0; i < memberCount; i++) {
             if (members[i].getMembershipNumber() == membershipNumber) {
                 IO.println("The membership number already exists");
             }
@@ -108,7 +108,7 @@ public class Library {
 
     static void borrowBook(Book[] books, int bookCount, Member[] members, int memberCount, int[] booksBorrowingStatus) {
         String title = IO.readln("Enter the title of the book you want to borrow: ");
-        for (int i = 0; i <= bookCount; i++) {
+        for (int i = 0; i < bookCount; i++) {
             if (books[i].getTitle().equals(title) && booksBorrowingStatus[i+1] == -1) {
                 int membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
                 for (int j = 0; j <= memberCount; j++) {
@@ -133,7 +133,7 @@ public class Library {
 
     static void returnBook(Book[] books, int bookCount, int[] booksBorrowingStatus) {
         String title = IO.readln("Enter the title of the book you want to return: ");
-        for (int i = 0; i <= bookCount; i++) {
+        for (int i = 0; i < bookCount; i++) {
             if (books[i].getTitle().equals(title) && booksBorrowingStatus[i+1] != -1) {
                 booksBorrowingStatus[i + 1] = -1;
                 IO.println("The book has been returned");
@@ -145,7 +145,7 @@ public class Library {
 
     static void searchBook(Book[] books, int bookCount) {
         String search = IO.readln("Enter the title or author of the book you want to search for: ");
-        for (int i = 0; i <= bookCount; i++) {
+        for (int i = 0; i < bookCount; i++) {
             if (books[i].getTitle().contains(search) || books[i].getAuthor().contains(search)) {
                 IO.println("Book found: " + books[i].getTitle() + " by " + books[i].getAuthor() +
                         " with ISBN: " + books[i].getIsbn());
@@ -155,7 +155,7 @@ public class Library {
     }
 
     static void printAllBooks(Book[] books, int bookCount, Member[] members, int[] booksBorrowingStatus) {
-        for (int i = 0; i <= bookCount; i++) {
+        for (int i = 0; i < bookCount; i++) {
             IO.print(i+1 + ". Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
                     ", ISBN: " + books[i].getIsbn());
             if (booksBorrowingStatus[i+1] != -1) {

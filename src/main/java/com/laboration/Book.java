@@ -1,10 +1,10 @@
 package com.laboration;
 
-public record Book(String title, String author, int isbn) {
-    public Book(String title, String author, int isbn) {
+public record Book(String title, String author, String isbn) {
+    public Book(String title, String author, String isbn) {
         this.title = title;
         this.author = author;
-        if (isbn == 10 || isbn == 13)
+        if (isbn.length() == 10 || isbn.length() == 13)
             this.isbn = isbn;
         else
             throw new IllegalArgumentException();
@@ -18,7 +18,7 @@ public record Book(String title, String author, int isbn) {
         return author;
     }
 
-    public int getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 }
