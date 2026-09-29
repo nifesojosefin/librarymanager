@@ -14,6 +14,8 @@ public class Library {
             printMenu();
             String choice = IO.readln("Enter your choice: ");
             if (choice.equals("1")) {
+                if (bookCount == books.length)
+                    books = expandBooksArray(books);
                 bookCount = addBook(books, booksBorrowingStatus, bookCount);
             }
             else if (choice.equals("2")) {
@@ -114,7 +116,7 @@ public class Library {
     static void borrowBook(Book[] books, int bookCount, Member[] members, int memberCount, int[] booksBorrowingStatus) {
         String title = IO.readln("Enter the title of the book you want to borrow: ");
         for (int i = 0; i < bookCount; i++) {
-            if (books[i].getTitle().equals(title) && booksBorrowingStatus[i+1] == -1) {
+            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i+1] == -1) {
                 int membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
                 for (int j = 0; j < memberCount; j++) {
                     if (members[j].getMembershipNumber() == membershipNumber) {
@@ -139,7 +141,7 @@ public class Library {
     static void returnBook(Book[] books, int bookCount, int[] booksBorrowingStatus) {
         String title = IO.readln("Enter the title of the book you want to return: ");
         for (int i = 0; i < bookCount; i++) {
-            if (books[i].getTitle().equals(title) && booksBorrowingStatus[i+1] != -1) {
+            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i+1] != -1) {
                 booksBorrowingStatus[i + 1] = -1;
                 IO.println("The book has been returned");
             }
@@ -179,5 +181,13 @@ public class Library {
                 return true;
         }
         return false;
+    }
+
+    static Book[] expandBooksArray(Book[] books) {
+        Book[] newBooks = new Book[books.length * 2];
+        for (int i = 0; i < books.length; i++) {
+            newBooks[i] = books[i];
+        }
+        return newBooks;
     }
 }
