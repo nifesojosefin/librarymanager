@@ -14,8 +14,7 @@ public class Library {
             printMenu();
             String choice = IO.readln("Enter your choice: ");
             if (choice.equals("1")) {
-                addBook(books, booksBorrowingStatus, bookCount);
-                bookCount++;
+                bookCount = addBook(books, booksBorrowingStatus, bookCount);
             }
             else if (choice.equals("2")) {
                 registerMember(members, memberCount);
@@ -77,7 +76,7 @@ public class Library {
             booksBorrowingStatus[i] = -1;
     }
 
-    static void addBook(Book[] books, int[] booksBorrowingStatus, int bookCount) {
+    static int addBook(Book[] books, int[] booksBorrowingStatus, int bookCount) {
         String title = IO.readln("Enter the title of the book: ");
         String author = IO.readln("Enter the author of the book: ");
         try {
@@ -86,10 +85,12 @@ public class Library {
             IO.println("The book has been added");
             if (bookCount > 0)
                 booksBorrowingStatus[bookCount + 1] = bookCount;
+            return ++bookCount;
         }
         catch (IllegalArgumentException e) {
             IO.println("Invalid ISBN. Please try again.");
         }
+        return bookCount;
     }
 
     static void registerMember(Member[] members, int memberCount) {
