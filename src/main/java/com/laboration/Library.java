@@ -26,12 +26,8 @@ public class Library {
                     IO.println("Invalid operation. Please add books and members first.");
             }
             else if (choice.equals("4")) {
-                if (bookCount > 0) {
-                    for (int i = 1; i <= bookCount; i = i + 2) {
-                        if (booksBorrowingStatus[i] != -1)
-                            returnBook(books, bookCount, booksBorrowingStatus);
-                    }
-                }
+                if (bookCount > 0 && isBooksBorrowed(booksBorrowingStatus, bookCount))
+                    returnBook(books, bookCount, booksBorrowingStatus);
                 else
                     IO.println("Invalid operation. There are no borrowed books to return.");
             }
@@ -169,5 +165,13 @@ public class Library {
             else
                 IO.println(". Status: available to borrow");
         }
+    }
+
+    static boolean isBooksBorrowed(int[] booksBorrowingStatus, int bookCount) {
+        for (int i = 1; i <= bookCount; i = i + 2) {
+            if (booksBorrowingStatus[i] != -1)
+                return true;
+        }
+        return false;
     }
 }
