@@ -92,17 +92,23 @@ public class Library {
 
     static int registerMember(Member[] members, int memberCount) {
         String name = IO.readln("Enter the name of the person: ");
-        int membershipNumber = Integer.parseInt(IO.readln("Enter the membership number for the person: "));
-        if (memberCount > 0)
-            for (int i = 0; i < memberCount; i++) {
-                if (members[i].getMembershipNumber() == membershipNumber) {
-                    IO.println("The membership number already exists. Please try again");
-                    return memberCount;
+        try {
+            int membershipNumber = Integer.parseInt(IO.readln("Enter the membership number for the person: "));
+            if (memberCount > 0)
+                for (int i = 0; i < memberCount; i++) {
+                    if (members[i].getMembershipNumber() == membershipNumber) {
+                        IO.println("The membership number already exists. Please try again");
+                        return memberCount;
+                    }
                 }
-            }
-        members[memberCount] = new Member(membershipNumber, name);
-        IO.println("The member has been registered");
-        return ++memberCount;
+            members[memberCount] = new Member(membershipNumber, name);
+            IO.println("The member has been registered");
+            return ++memberCount;
+        }
+        catch (IllegalArgumentException e) {
+            IO.println("Invalid membership number. Please try again");
+            return memberCount;
+        }
     }
 
     static void borrowBook(Book[] books, int bookCount, Member[] members, int memberCount, int[] booksBorrowingStatus) {

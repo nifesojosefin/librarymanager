@@ -6,7 +6,10 @@ public class Member {
     private int numberOfBooksBorrowed;
 
     public Member(int membershipNumber, String name) {
-        this.membershipNumber = membershipNumber;
+        if (isValidMembershipNumber())
+            this.membershipNumber = membershipNumber;
+        else
+            throw new IllegalArgumentException();
         this.name = name;
         this.numberOfBooksBorrowed = 0;
     }
@@ -25,5 +28,9 @@ public class Member {
 
     public boolean isAllowedToBorrow() {
         return numberOfBooksBorrowed <= 5;
+    }
+
+    public boolean isValidMembershipNumber() {
+        return membershipNumber >= 1 && membershipNumber <= 10000;
     }
 }
