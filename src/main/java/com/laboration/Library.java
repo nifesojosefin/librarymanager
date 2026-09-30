@@ -2,11 +2,11 @@ package com.laboration;
 
 public class Library {
     static void main() {
-        Book[] books = new Book[20];
+        Book[] books = new Book[10];
         int bookCount = 0;
         Member[] members = new Member[10];
         int memberCount = 0;
-        int[] booksBorrowingStatus = new int[40];
+        int[] booksBorrowingStatus = new int[20];
 
         setInitialValuesForBorrowingStatus(booksBorrowingStatus);
 
@@ -14,8 +14,10 @@ public class Library {
             printMenu();
             String choice = IO.readln("Enter your choice: ");
             if (choice.equals("1")) {
-                if (bookCount == books.length)
+                if (bookCount == books.length) {
                     books = expandBooksArray(books);
+                    booksBorrowingStatus = expandBooksBorrowingStatusArray(booksBorrowingStatus, bookCount);
+                }
                 bookCount = addBook(books, booksBorrowingStatus, bookCount);
             }
             else if (choice.equals("2")) {
@@ -84,9 +86,8 @@ public class Library {
             String isbn = IO.readln("Enter the ISBN of the book: ");
             books[bookCount] = new Book(title, author, isbn);
             IO.println("The book has been added");
-            if (bookCount > 0)
-                booksBorrowingStatus[bookCount + 1] = bookCount;
-            return ++bookCount;
+            booksBorrowingStatus[bookCount + bookCount] = bookCount;
+            return bookCount = bookCount + 1;
         }
         catch (IllegalArgumentException e) {
             IO.println("Invalid ISBN. Please try again.");
@@ -199,5 +200,17 @@ public class Library {
             newMembers[i] = members[i];
         }
         return newMembers;
+    }
+
+    static int[] expandBooksBorrowingStatusArray(int[] booksBorrowingStatus, int bookCount) {
+        int[] newBooksBorrowingStatus = new int[booksBorrowingStatus.length * 2];
+        for (int i = 0; i < booksBorrowingStatus.length; i++) {
+            newBooksBorrowingStatus[i] = booksBorrowingStatus[i];
+        }
+
+        for (int i = booksBorrowingStatus.length + 1; i < newBooksBorrowingStatus.length; i = i + 2) {
+            newBooksBorrowingStatus[i] = -1;
+        }
+        return newBooksBorrowingStatus;
     }
 }
