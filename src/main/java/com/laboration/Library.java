@@ -1,11 +1,11 @@
 package com.laboration;
 
 public class Library {
-        private Book[] books = new Book[10];
+        private Book[] books = new Book[2];
         private int bookCount = 0;
-        private Member[] members = new Member[10];
+        private Member[] members = new Member[2];
         private int memberCount = 0;
-        private int[] booksBorrowingStatus = new int[20];
+        private int[] booksBorrowingStatus = new int[4];
 
     public void setInitialValuesForBorrowingStatus() {
         for (int i = 1; i < booksBorrowingStatus.length; i = i + 2)
@@ -60,11 +60,13 @@ public class Library {
         }
         String title = IO.readln("Enter the title of the book you want to borrow: ");
         int bookIndex = -1;
+        int memberIndex = 1;
         for (int i = 0; i < bookCount; i++) {
-            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i + 1] == -1) {
+            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[memberIndex] == -1) {
                 bookIndex = i;
                 break;
             }
+            memberIndex = memberIndex + 2;
         }
         if (bookIndex == -1) {
             IO.println("The book does not exist or is already borrowed");
@@ -90,7 +92,7 @@ public class Library {
         }
 
         if (members[membershipIndex].isAllowedToBorrow()) {
-            booksBorrowingStatus[bookIndex + 1] = membershipIndex;
+            booksBorrowingStatus[memberIndex] = membershipIndex;
             members[membershipIndex].addNumberOfBooksBorrowed();
             IO.println("The book has been borrowed");
         }
