@@ -137,17 +137,17 @@ public class Library {
 
     public void printAllBooks() {
         if (bookCount > 0) {
-            int memberNumber = 1;
+            int memberIndex = 1;
             for (int i = 0; i < bookCount; i++) {
                 IO.print(i + 1 + ". Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
                         ", ISBN: " + books[i].getIsbn());
-                if (booksBorrowingStatus[memberNumber] != -1) {
+                if (booksBorrowingStatus[memberIndex] != -1) {
                     IO.println(". Status: borrowed by member number: " +
-                            members[booksBorrowingStatus[memberNumber]].getMembershipNumber() +
-                            " (" + members[booksBorrowingStatus[memberNumber]].getName() + ")");
+                            members[booksBorrowingStatus[memberIndex]].getMembershipNumber() +
+                            " (" + members[booksBorrowingStatus[memberIndex]].getName() + ")");
                 } else
                     IO.println(". Status: available to borrow");
-                memberNumber = memberNumber + 2;
+                memberIndex = memberIndex + 2;
             }
         }
         else
