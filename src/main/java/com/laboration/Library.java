@@ -54,29 +54,49 @@ public class Library {
     }
 
     public void borrowBook() {
-        if (bookCount > 0 && memberCount > 0) {
-            String title = IO.readln("Enter the title of the book you want to borrow: ");
-            for (int i = 0; i < bookCount; i++) {
-                if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i + 1] == -1) {
-                    int membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
-                    for (int j = 0; j < memberCount; j++) {
-                        if (members[j].getMembershipNumber() == membershipNumber) {
-                            if (members[j].isAllowedToBorrow()) {
-                                booksBorrowingStatus[i + 1] = j;
-                                members[j].addNumberOfBooksBorrowed();
-                                IO.println("The book has been borrowed");
-                            } else
-                                IO.println("The member has already reached the maximum number of borrowed books and " +
-                                        "is not allowed to borrow another book at the moment");
-                        } else
-                            IO.println("The membership number does not exist");
-                    }
-                } else
-                    IO.println("The book does not exist or is already borrowed");
+        if (bookCount <= 0 || memberCount <= 0) {
+            IO.println("Invalid operation. Please add books and members first.");
+            return;
+        }
+        String title = IO.readln("Enter the title of the book you want to borrow: ");
+        int bookIndex = -1;
+        for (int i = 0; i < bookCount; i++) {
+            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i + 1] == -1) {
+                bookIndex = i;
+                break;
             }
         }
+        if (bookIndex == -1) {
+            IO.println("The book does not exist or is already borrowed");
+            return;
+        }
+        int membershipNumber;
+        try {
+            membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
+        } catch (NumberFormatException e) {
+            IO.println("Invalid input. Please enter a valid membership number");
+            return;
+        }
+        int membershipIndex = -1;
+        for (int i = 0; i < memberCount; i++) {
+            if (members[i].getMembershipNumber() == membershipNumber) {
+                membershipIndex = i;
+                break;
+            }
+        }
+        if (membershipIndex == -1) {
+            IO.println("The membership number does not exist");
+            return;
+        }
+
+        if (members[membershipIndex].isAllowedToBorrow()) {
+            booksBorrowingStatus[bookIndex + 1] = membershipIndex;
+            members[membershipIndex].addNumberOfBooksBorrowed();
+            IO.println("The book has been borrowed");
+        }
         else
-            IO.println("Invalid operation. Please add books and members first.");
+            IO.println("The member has already reached the maximum number of borrowed books and " +
+                    "is not allowed to borrow another book at the moment");
     }
 
     public void returnBook() {
