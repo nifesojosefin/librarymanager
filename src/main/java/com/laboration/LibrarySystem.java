@@ -29,6 +29,7 @@ public class LibrarySystem {
                 case "e", "E" -> System.exit(0);
                 default -> IO.println("Invalid choice. Please try again.");
             }
+            IO.println();
         }
     }
 }
