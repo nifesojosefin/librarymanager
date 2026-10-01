@@ -118,13 +118,18 @@ public class Library {
     public void searchBook() {
         if (bookCount > 0) {
             String search = IO.readln("Enter the title or author of the book you want to search for: ");
+            IO.println("Search results:");
+            boolean bookFound = false;
             for (int i = 0; i < bookCount; i++) {
-                if (books[i].getTitle().contains(search) || books[i].getAuthor().contains(search)) {
-                    IO.println("Book found: " + books[i].getTitle() + " by " + books[i].getAuthor() +
-                            " with ISBN: " + books[i].getIsbn());
+                if (books[i].getTitle().toLowerCase().contains(search.toLowerCase())
+                        || books[i].getAuthor().toLowerCase().contains(search.toLowerCase())) {
+                    IO.println("Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
+                            ", ISBN: " + books[i].getIsbn());
+                    bookFound = true;
                 }
             }
-            IO.println("No book matching the search was found");
+            if (!bookFound)
+                IO.println("No book matching the search was found");
         }
         else
             IO.println("Invalid operation. There are no books to search.");
