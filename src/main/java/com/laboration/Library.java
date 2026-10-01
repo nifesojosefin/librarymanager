@@ -49,7 +49,7 @@ public class Library {
             memberCount++;
         }
         catch (IllegalArgumentException e) {
-            IO.println("Invalid membership number. Please try again");
+            IO.println("Invalid input. Please try again");
         }
     }
 
@@ -80,7 +80,7 @@ public class Library {
     }
 
     public void returnBook() {
-        if (bookCount > 0 && isBooksBorrowed()) {
+        if (isBooksBorrowed()) {
             String title = IO.readln("Enter the title of the book you want to return: ");
             for (int i = 0; i < bookCount; i++) {
                 if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i + 1] != -1) {
