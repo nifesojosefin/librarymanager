@@ -31,7 +31,10 @@ public class Library {
         }
     }
 
-    public int registerMember(Member[] members, int memberCount) {
+    public void registerMember() {
+        if (memberCount >= members.length) {
+            expandMembersArray();
+        }
         String name = IO.readln("Enter the name of the person: ");
         try {
             int membershipNumber = Integer.parseInt(IO.readln("Enter the membership number for the person: "));
@@ -130,12 +133,12 @@ public class Library {
         books = newBooks;
     }
 
-    private Member[] expandMembersArray(Member[] members) {
+    private void expandMembersArray() {
         Member[] newMembers = new Member[members.length * 2];
         for (int i = 0; i < members.length; i++) {
             newMembers[i] = members[i];
         }
-        return newMembers;
+        members = newMembers;
     }
 
     private void expandBooksBorrowingStatusArray() {
