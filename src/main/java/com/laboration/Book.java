@@ -2,12 +2,13 @@ package com.laboration;
 
 public record Book(String title, String author, String isbn) {
     public Book(String title, String author, String isbn) {
+        if (isNotValidInput(title) || isNotValidInput(author) || isNotValidIsbn(isbn))
+            throw new IllegalArgumentException();
+        else {
         this.title = title;
         this.author = author;
-        if (isValidIsbn(isbn))
-            this.isbn = isbn;
-        else
-            throw new IllegalArgumentException();
+        this.isbn = isbn;
+        }
     }
 
     public String getTitle() {
@@ -22,13 +23,17 @@ public record Book(String title, String author, String isbn) {
         return isbn;
     }
 
-    private boolean isValidIsbn(String isbn) {
+    private boolean isNotValidInput(String input) {
+        return input.isBlank();
+    }
+
+    private boolean isNotValidIsbn(String isbn) {
         if (isbn.length() != 10 && isbn.length() != 13)
-            return false;
+            return true;
         for (int i = 0; i < isbn.length(); i++) {
             if (!Character.isDigit(isbn.charAt(i)))
-                return false;
+                return true;
             }
-        return true;
+        return false;
     }
 }
