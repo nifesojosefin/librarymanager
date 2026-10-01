@@ -79,16 +79,19 @@ public class Library {
             IO.println("Invalid operation. Please add books and members first.");
     }
 
-    public void returnBook(Book[] books, int bookCount, int[] booksBorrowingStatus) {
-        String title = IO.readln("Enter the title of the book you want to return: ");
-        for (int i = 0; i < bookCount; i++) {
-            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i+1] != -1) {
-                booksBorrowingStatus[i + 1] = -1;
-                IO.println("The book has been returned");
-                return;
+    public void returnBook() {
+        if (bookCount > 0 && isBooksBorrowed()) {
+            String title = IO.readln("Enter the title of the book you want to return: ");
+            for (int i = 0; i < bookCount; i++) {
+                if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i + 1] != -1) {
+                    booksBorrowingStatus[i + 1] = -1;
+                    IO.println("The book has been returned");
+                } else
+                    IO.println("The book does not exist or is not borrowed");
             }
-            IO.println("The book does not exist or is not borrowed");
         }
+        else
+            IO.println("Invalid operation. There are no borrowed books to return.");
     }
 
     public void searchBook(Book[] books, int bookCount) {
@@ -116,7 +119,7 @@ public class Library {
         }
     }
 
-    public boolean isBooksBorrowed(int[] booksBorrowingStatus, int bookCount) {
+    private boolean isBooksBorrowed() {
         for (int i = 1; i <= bookCount; i = i + 2) {
             if (booksBorrowingStatus[i] != -1)
                 return true;
