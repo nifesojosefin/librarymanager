@@ -19,15 +19,15 @@ public class Library {
         }
         String title = IO.readln("Enter the title of the book: ");
         String author = IO.readln("Enter the author of the book: ");
+        String isbn = IO.readln("Enter the ISBN of the book (10 or 13 digits): ");
         try {
-            String isbn = IO.readln("Enter the ISBN of the book (10 or 13 digits): ");
             books[bookCount] = new Book(title, author, isbn);
             IO.println("The book has been added");
             booksBorrowingStatus[bookCount + bookCount] = bookCount;
             bookCount++;
         }
         catch (IllegalArgumentException e) {
-            IO.println("Invalid ISBN. Please try again.");
+            IO.println("Invalid input. Please try again.");
         }
     }
 
