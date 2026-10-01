@@ -1,85 +1,18 @@
 package com.laboration;
 
 public class Library {
-    static void main() {
-        Book[] books = new Book[10];
-        int bookCount = 0;
-        Member[] members = new Member[10];
-        int memberCount = 0;
-        int[] booksBorrowingStatus = new int[20];
+        private Book[] books = new Book[10];
+        private int bookCount = 0;
+        private Member[] members = new Member[10];
+        private int memberCount = 0;
+        private int[] booksBorrowingStatus = new int[20];
 
-        setInitialValuesForBorrowingStatus(booksBorrowingStatus);
-
-        while (true) {
-            printMenu();
-            String choice = IO.readln("Enter your choice: ");
-            if (choice.equals("1")) {
-                if (bookCount == books.length) {
-                    books = expandBooksArray(books);
-                    booksBorrowingStatus = expandBooksBorrowingStatusArray(booksBorrowingStatus, bookCount);
-                }
-                bookCount = addBook(books, booksBorrowingStatus, bookCount);
-            }
-            else if (choice.equals("2")) {
-                if (memberCount == members.length)
-                    members = expandMembersArray(members);
-                memberCount = registerMember(members, memberCount);
-            }
-            else if (choice.equals("3")) {
-                if (bookCount > 0 && memberCount > 0)
-                    borrowBook(books, bookCount, members, memberCount, booksBorrowingStatus);
-                else
-                    IO.println("Invalid operation. Please add books and members first.");
-            }
-            else if (choice.equals("4")) {
-                if (bookCount > 0 && isBooksBorrowed(booksBorrowingStatus, bookCount))
-                    returnBook(books, bookCount, booksBorrowingStatus);
-                else
-                    IO.println("Invalid operation. There are no borrowed books to return.");
-            }
-            else if (choice.equals("5")) {
-                if (bookCount > 0)
-                    searchBook(books, bookCount);
-                else
-                    IO.println("Invalid operation. There are no books to search.");
-            }
-            else if (choice.equals("6")) {
-                if (bookCount > 0)
-                    printAllBooks(books, bookCount, members, booksBorrowingStatus);
-                else
-                    IO.println("Invalid operation. There are no books to show.");
-            }
-            else if (choice.equalsIgnoreCase("e")) {
-                IO.println("Exiting the program...");
-                return;
-            }
-            else
-                IO.println("Invalid choice. Please try again.");
-
-            IO.println();
-        }
-    }
-
-    static void printMenu() {
-        IO.println("""
-                The Library Management System
-                ====================================
-                1. Add book
-                2. Register member
-                3. Borrow book
-                4. Return book
-                5. Search for book (title or author)
-                6. Show all books and status
-                e. Exit
-                """);
-    }
-
-    static void setInitialValuesForBorrowingStatus(int[] booksBorrowingStatus) {
+    public void setInitialValuesForBorrowingStatus() {
         for (int i = 1; i < booksBorrowingStatus.length; i = i + 2)
             booksBorrowingStatus[i] = -1;
     }
 
-    static int addBook(Book[] books, int[] booksBorrowingStatus, int bookCount) {
+    public int addBook() {
         String title = IO.readln("Enter the title of the book: ");
         String author = IO.readln("Enter the author of the book: ");
         try {
@@ -87,7 +20,7 @@ public class Library {
             books[bookCount] = new Book(title, author, isbn);
             IO.println("The book has been added");
             booksBorrowingStatus[bookCount + bookCount] = bookCount;
-            return bookCount = bookCount + 1;
+            bookCount++;
         }
         catch (IllegalArgumentException e) {
             IO.println("Invalid ISBN. Please try again.");
@@ -95,7 +28,7 @@ public class Library {
         return bookCount;
     }
 
-    static int registerMember(Member[] members, int memberCount) {
+    public int registerMember(Member[] members, int memberCount) {
         String name = IO.readln("Enter the name of the person: ");
         try {
             int membershipNumber = Integer.parseInt(IO.readln("Enter the membership number for the person: "));
@@ -116,7 +49,7 @@ public class Library {
         }
     }
 
-    static void borrowBook(Book[] books, int bookCount, Member[] members, int memberCount, int[] booksBorrowingStatus) {
+    public void borrowBook(Book[] books, int bookCount, Member[] members, int memberCount, int[] booksBorrowingStatus) {
         String title = IO.readln("Enter the title of the book you want to borrow: ");
         for (int i = 0; i < bookCount; i++) {
             if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i+1] == -1) {
@@ -141,19 +74,19 @@ public class Library {
         }
     }
 
-    static void returnBook(Book[] books, int bookCount, int[] booksBorrowingStatus) {
+    public void returnBook(Book[] books, int bookCount, int[] booksBorrowingStatus) {
         String title = IO.readln("Enter the title of the book you want to return: ");
         for (int i = 0; i < bookCount; i++) {
             if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i+1] != -1) {
                 booksBorrowingStatus[i + 1] = -1;
                 IO.println("The book has been returned");
+                return;
             }
-            else
-                IO.println("The book does not exist or is not borrowed");
+            IO.println("The book does not exist or is not borrowed");
         }
     }
 
-    static void searchBook(Book[] books, int bookCount) {
+    public void searchBook(Book[] books, int bookCount) {
         String search = IO.readln("Enter the title or author of the book you want to search for: ");
         for (int i = 0; i < bookCount; i++) {
             if (books[i].getTitle().contains(search) || books[i].getAuthor().contains(search)) {
@@ -164,7 +97,7 @@ public class Library {
         IO.println("No book matching the search was found");
     }
 
-    static void printAllBooks(Book[] books, int bookCount, Member[] members, int[] booksBorrowingStatus) {
+    public void printAllBooks(Book[] books, int bookCount, Member[] members, int[] booksBorrowingStatus) {
         for (int i = 0; i < bookCount; i++) {
             IO.print(i+1 + ". Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
                     ", ISBN: " + books[i].getIsbn());
@@ -178,7 +111,7 @@ public class Library {
         }
     }
 
-    static boolean isBooksBorrowed(int[] booksBorrowingStatus, int bookCount) {
+    public boolean isBooksBorrowed(int[] booksBorrowingStatus, int bookCount) {
         for (int i = 1; i <= bookCount; i = i + 2) {
             if (booksBorrowingStatus[i] != -1)
                 return true;
@@ -186,7 +119,7 @@ public class Library {
         return false;
     }
 
-    static Book[] expandBooksArray(Book[] books) {
+    private Book[] expandBooksArray(Book[] books) {
         Book[] newBooks = new Book[books.length * 2];
         for (int i = 0; i < books.length; i++) {
             newBooks[i] = books[i];
@@ -194,7 +127,7 @@ public class Library {
         return newBooks;
     }
 
-    static Member[] expandMembersArray(Member[] members) {
+    private Member[] expandMembersArray(Member[] members) {
         Member[] newMembers = new Member[members.length * 2];
         for (int i = 0; i < members.length; i++) {
             newMembers[i] = members[i];
@@ -202,7 +135,7 @@ public class Library {
         return newMembers;
     }
 
-    static int[] expandBooksBorrowingStatusArray(int[] booksBorrowingStatus, int bookCount) {
+    private int[] expandBooksBorrowingStatusArray(int[] booksBorrowingStatus, int bookCount) {
         int[] newBooksBorrowingStatus = new int[booksBorrowingStatus.length * 2];
         for (int i = 0; i < booksBorrowingStatus.length; i++) {
             newBooksBorrowingStatus[i] = booksBorrowingStatus[i];

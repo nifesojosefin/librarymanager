@@ -24,7 +24,7 @@ public record Book(String title, String author, String isbn) {
 
     private boolean isValidIsbn(String isbn) {
         if (isbn.length() == 10 || isbn.length() == 13)
-            for (int i = 0; i < isbn.length(); i ++) {
+            for (int i = 0; i < isbn.length(); i++) {
                 if (Character.isDigit(isbn.charAt(i)))
                     return true;
             }
