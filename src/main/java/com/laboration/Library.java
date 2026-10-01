@@ -15,7 +15,7 @@ public class Library {
     public void addBook() {
         if (bookCount >= books.length) {
             expandBooksArray();
-            expandBooksArray();
+            expandBooksBorrowingStatusArray();
         }
         String title = IO.readln("Enter the title of the book: ");
         String author = IO.readln("Enter the author of the book: ");
