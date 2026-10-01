@@ -13,6 +13,8 @@ public class Library {
     }
 
     public int addBook() {
+        if (bookCount >= books.length)
+            expandBooksArray();
         String title = IO.readln("Enter the title of the book: ");
         String author = IO.readln("Enter the author of the book: ");
         try {
@@ -119,12 +121,12 @@ public class Library {
         return false;
     }
 
-    private Book[] expandBooksArray(Book[] books) {
+    private void expandBooksArray() {
         Book[] newBooks = new Book[books.length * 2];
         for (int i = 0; i < books.length; i++) {
             newBooks[i] = books[i];
         }
-        return newBooks;
+        books = newBooks;
     }
 
     private Member[] expandMembersArray(Member[] members) {
