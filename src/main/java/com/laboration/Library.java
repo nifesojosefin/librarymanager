@@ -53,29 +53,30 @@ public class Library {
         }
     }
 
-    public void borrowBook(Book[] books, int bookCount, Member[] members, int memberCount, int[] booksBorrowingStatus) {
-        String title = IO.readln("Enter the title of the book you want to borrow: ");
-        for (int i = 0; i < bookCount; i++) {
-            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i+1] == -1) {
-                int membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
-                for (int j = 0; j < memberCount; j++) {
-                    if (members[j].getMembershipNumber() == membershipNumber) {
-                        if (members[j].isAllowedToBorrow()) {
-                            booksBorrowingStatus[i + 1] = j;
-                            members[j].addNumberOfBooksBorrowed();
-                            IO.println("The book has been borrowed");
-                        }
-                        else
-                            IO.println("The member has already reached the maximum number of borrowed books and " +
-                                    "is not allowed to borrow another book at the moment");
+    public void borrowBook() {
+        if (bookCount > 0 && memberCount > 0) {
+            String title = IO.readln("Enter the title of the book you want to borrow: ");
+            for (int i = 0; i < bookCount; i++) {
+                if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i + 1] == -1) {
+                    int membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
+                    for (int j = 0; j < memberCount; j++) {
+                        if (members[j].getMembershipNumber() == membershipNumber) {
+                            if (members[j].isAllowedToBorrow()) {
+                                booksBorrowingStatus[i + 1] = j;
+                                members[j].addNumberOfBooksBorrowed();
+                                IO.println("The book has been borrowed");
+                            } else
+                                IO.println("The member has already reached the maximum number of borrowed books and " +
+                                        "is not allowed to borrow another book at the moment");
+                        } else
+                            IO.println("The membership number does not exist");
                     }
-                    else
-                        IO.println("The membership number does not exist");
-                }
+                } else
+                    IO.println("The book does not exist or is already borrowed");
             }
-            else
-                IO.println("The book does not exist or is already borrowed");
         }
+        else
+            IO.println("Invalid operation. Please add books and members first.");
     }
 
     public void returnBook(Book[] books, int bookCount, int[] booksBorrowingStatus) {
