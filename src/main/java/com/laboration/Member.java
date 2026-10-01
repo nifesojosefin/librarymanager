@@ -27,6 +27,10 @@ public class Member {
         this.numberOfBooksBorrowed = this.numberOfBooksBorrowed + 1;
     }
 
+    public void decreaseNumberOfBooksBorrowed() {
+        this.numberOfBooksBorrowed = this.numberOfBooksBorrowed - 1;
+    }
+
     public boolean isAllowedToBorrow() {
         return numberOfBooksBorrowed <= 5;
     }

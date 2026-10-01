@@ -84,6 +84,7 @@ public class Library {
             String title = IO.readln("Enter the title of the book you want to return: ");
             for (int i = 0; i < bookCount; i++) {
                 if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i + 1] != -1) {
+                    members[booksBorrowingStatus[i + 1]].decreaseNumberOfBooksBorrowed();
                     booksBorrowingStatus[i + 1] = -1;
                     IO.println("The book has been returned");
                 } else
