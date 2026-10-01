@@ -109,18 +109,21 @@ public class Library {
             IO.println("Invalid operation. There are no books to search.");
     }
 
-    public void printAllBooks(Book[] books, int bookCount, Member[] members, int[] booksBorrowingStatus) {
-        for (int i = 0; i < bookCount; i++) {
-            IO.print(i+1 + ". Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
-                    ", ISBN: " + books[i].getIsbn());
-            if (booksBorrowingStatus[i+1] != -1) {
-                IO.println(". Status: borrowed by member number: " +
-                        members[booksBorrowingStatus[i+1]].getMembershipNumber() +
-                        " (" + members[booksBorrowingStatus[i+1]].getName() + ")");
+    public void printAllBooks() {
+        if (bookCount > 0) {
+            for (int i = 0; i < bookCount; i++) {
+                IO.print(i + 1 + ". Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
+                        ", ISBN: " + books[i].getIsbn());
+                if (booksBorrowingStatus[i + 1] != -1) {
+                    IO.println(". Status: borrowed by member number: " +
+                            members[booksBorrowingStatus[i + 1]].getMembershipNumber() +
+                            " (" + members[booksBorrowingStatus[i + 1]].getName() + ")");
+                } else
+                    IO.println(". Status: available to borrow");
             }
-            else
-                IO.println(". Status: available to borrow");
         }
+        else
+            IO.println("Invalid operation. There are no books to show.");
     }
 
     private boolean isBooksBorrowed() {
