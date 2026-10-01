@@ -6,12 +6,13 @@ public class Member {
     private int numberOfBooksBorrowed;
 
     public Member(int membershipNumber, String name) {
-        if (isValidMembershipNumber(membershipNumber))
-            this.membershipNumber = membershipNumber;
-        else
+        if (isNotValidMembershipNumber(membershipNumber) || isNotValidInput(name))
             throw new IllegalArgumentException();
-        this.name = name;
-        this.numberOfBooksBorrowed = 0;
+        else {
+            this.membershipNumber = membershipNumber;
+            this.name = name;
+            this.numberOfBooksBorrowed = 0;
+        }
     }
 
     public int getMembershipNumber() {
@@ -30,7 +31,11 @@ public class Member {
         return numberOfBooksBorrowed <= 5;
     }
 
-    public boolean isValidMembershipNumber(int membershipNumber) {
-        return membershipNumber >= 1 && membershipNumber <= 10000;
+    public boolean isNotValidMembershipNumber(int membershipNumber) {
+        return membershipNumber <= 0 || membershipNumber > 100000;
+    }
+
+    private boolean isNotValidInput(String input) {
+        return input.isBlank();
     }
 }
