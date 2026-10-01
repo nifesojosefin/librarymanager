@@ -42,16 +42,14 @@ public class Library {
                 for (int i = 0; i < memberCount; i++) {
                     if (members[i].getMembershipNumber() == membershipNumber) {
                         IO.println("The membership number already exists. Please try again");
-                        return memberCount;
                     }
                 }
             members[memberCount] = new Member(membershipNumber, name);
             IO.println("The member has been registered");
-            return ++memberCount;
+            memberCount++;
         }
         catch (IllegalArgumentException e) {
             IO.println("Invalid membership number. Please try again");
-            return memberCount;
         }
     }
 
