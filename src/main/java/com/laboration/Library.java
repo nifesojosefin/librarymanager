@@ -12,9 +12,11 @@ public class Library {
             booksBorrowingStatus[i] = -1;
     }
 
-    public int addBook() {
-        if (bookCount >= books.length)
+    public void addBook() {
+        if (bookCount >= books.length) {
             expandBooksArray();
+            expandBooksArray();
+        }
         String title = IO.readln("Enter the title of the book: ");
         String author = IO.readln("Enter the author of the book: ");
         try {
@@ -27,7 +29,6 @@ public class Library {
         catch (IllegalArgumentException e) {
             IO.println("Invalid ISBN. Please try again.");
         }
-        return bookCount;
     }
 
     public int registerMember(Member[] members, int memberCount) {
@@ -137,7 +138,7 @@ public class Library {
         return newMembers;
     }
 
-    private int[] expandBooksBorrowingStatusArray(int[] booksBorrowingStatus, int bookCount) {
+    private void expandBooksBorrowingStatusArray() {
         int[] newBooksBorrowingStatus = new int[booksBorrowingStatus.length * 2];
         for (int i = 0; i < booksBorrowingStatus.length; i++) {
             newBooksBorrowingStatus[i] = booksBorrowingStatus[i];
@@ -146,6 +147,6 @@ public class Library {
         for (int i = booksBorrowingStatus.length + 1; i < newBooksBorrowingStatus.length; i = i + 2) {
             newBooksBorrowingStatus[i] = -1;
         }
-        return newBooksBorrowingStatus;
+        booksBorrowingStatus = newBooksBorrowingStatus;
     }
 }
