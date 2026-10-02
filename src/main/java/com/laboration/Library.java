@@ -129,6 +129,7 @@ public class Library {
     public void searchBook() {
         if (bookCount <= 0) {
             IO.println("Invalid operation. There are no books to search.");
+            return;
         }
         String search = IO.readln("Enter the title or author of the book you want to search for: ");
         IO.println("Search results:");
