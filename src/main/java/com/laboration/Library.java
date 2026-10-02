@@ -1,11 +1,11 @@
 package com.laboration;
 
 public class Library {
-        private Book[] books = new Book[2];
+        private Book[] books = new Book[20];
         private int bookCount = 0;
-        private Member[] members = new Member[2];
+        private Member[] members = new Member[10];
         private int memberCount = 0;
-        private int[] booksBorrowingStatus = new int[4];
+        private int[] booksBorrowingStatus = new int[40];
 
     public void setInitialValuesForBorrowingStatus() {
         for (int i = 1; i < booksBorrowingStatus.length; i = i + 2)
