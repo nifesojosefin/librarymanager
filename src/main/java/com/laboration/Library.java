@@ -76,24 +76,9 @@ public class Library {
             IO.println("The book is already borrowed");
             return;
         }
-        int membershipNumber;
-        try {
-            membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
-        } catch (NumberFormatException e) {
-            IO.println("Invalid input. Please enter a valid membership number");
+        int memberIndexInMemberArray = getMemberIndexInMemberArray();
+        if (memberIndexInMemberArray == -1)
             return;
-        }
-        int memberIndexInMemberArray = -1;
-        for (int i = 0; i < memberCount; i++) {
-            if (members[i].getMembershipNumber() == membershipNumber) {
-                memberIndexInMemberArray = i;
-                break;
-            }
-        }
-        if (memberIndexInMemberArray == -1) {
-            IO.println("The membership number does not exist");
-            return;
-        }
 
         if (members[memberIndexInMemberArray].isAllowedToBorrow()) {
             booksBorrowingStatus[memberIndexInBorrowingArray] = memberIndexInMemberArray;
@@ -124,24 +109,9 @@ public class Library {
             IO.println("The book does not exist or is not borrowed");
             return;
         }
-        int membershipNumber;
-        try {
-            membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
-        } catch (NumberFormatException e) {
-            IO.println("Invalid input. Please enter a valid membership number");
+        int memberIndexInMemberArray = getMemberIndexInMemberArray();
+        if (memberIndexInMemberArray == -1)
             return;
-        }
-        int memberIndexInMemberArray = -1;
-        for (int i = 0; i < memberCount; i++) {
-            if (members[i].getMembershipNumber() == membershipNumber) {
-                memberIndexInMemberArray = i;
-                break;
-            }
-        }
-        if (memberIndexInMemberArray == -1) {
-            IO.println("The membership number does not exist");
-            return;
-        }
 
         if (members[memberIndexInMemberArray].equals(members[booksBorrowingStatus[memberIndexInBorrowingArray]])) {
             booksBorrowingStatus[memberIndexInBorrowingArray] = -1;
@@ -153,42 +123,40 @@ public class Library {
     }
 
     public void searchBook() {
-        if (bookCount > 0) {
-            String search = IO.readln("Enter the title or author of the book you want to search for: ");
-            IO.println("Search results:");
-            boolean bookFound = false;
-            for (int i = 0; i < bookCount; i++) {
-                if (books[i].getTitle().toLowerCase().contains(search.toLowerCase())
-                        || books[i].getAuthor().toLowerCase().contains(search.toLowerCase())) {
-                    IO.println("Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
-                            ", ISBN: " + books[i].getIsbn());
-                    bookFound = true;
-                }
-            }
-            if (!bookFound)
-                IO.println("No book matching the search was found");
-        }
-        else
+        if (bookCount <= 0) {
             IO.println("Invalid operation. There are no books to search.");
+        }
+        String search = IO.readln("Enter the title or author of the book you want to search for: ");
+        IO.println("Search results:");
+        boolean bookFound = false;
+        for (int i = 0; i < bookCount; i++) {
+            if (books[i].getTitle().toLowerCase().contains(search.toLowerCase())
+                    || books[i].getAuthor().toLowerCase().contains(search.toLowerCase())) {
+                IO.println("Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
+                        ", ISBN: " + books[i].getIsbn());
+                bookFound = true;
+            }
+        }
+        if (!bookFound)
+            IO.println("No book matching the search was found");
     }
 
     public void printAllBooks() {
-        if (bookCount > 0) {
-            int memberIndex = 1;
-            for (int i = 0; i < bookCount; i++) {
-                IO.print(i + 1 + ". Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
-                        ", ISBN: " + books[i].getIsbn());
-                if (booksBorrowingStatus[memberIndex] != -1) {
-                    IO.println(". Status: borrowed by member number: " +
-                            members[booksBorrowingStatus[memberIndex]].getMembershipNumber() +
-                            " (" + members[booksBorrowingStatus[memberIndex]].getName() + ")");
-                } else
-                    IO.println(". Status: available to borrow");
-                memberIndex = memberIndex + 2;
-            }
-        }
-        else
+        if (bookCount <= 0) {
             IO.println("Invalid operation. There are no books to show.");
+        }
+        int memberIndex = 1;
+        for (int i = 0; i < bookCount; i++) {
+            IO.print(i + 1 + ". Title: " + books[i].getTitle() + ", author: " + books[i].getAuthor() +
+                    ", ISBN: " + books[i].getIsbn());
+            if (booksBorrowingStatus[memberIndex] != -1) {
+                IO.println(". Status: borrowed by member number: " +
+                        members[booksBorrowingStatus[memberIndex]].getMembershipNumber() +
+                        " (" + members[booksBorrowingStatus[memberIndex]].getName() + ")");
+            } else
+                IO.println(". Status: available to borrow");
+            memberIndex = memberIndex + 2;
+            }
     }
 
     private boolean isNotAnyBooksBorrowed() {
@@ -225,5 +193,27 @@ public class Library {
             newBooksBorrowingStatus[i] = -1;
         }
         booksBorrowingStatus = newBooksBorrowingStatus;
+    }
+
+    private int getMemberIndexInMemberArray() {
+        int membershipNumber;
+        try {
+            membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
+        } catch (NumberFormatException e) {
+            IO.println("Invalid input. Please enter a valid membership number");
+            return -1;
+        }
+        int memberIndexInMemberArray = -1;
+        for (int i = 0; i < memberCount; i++) {
+            if (members[i].getMembershipNumber() == membershipNumber) {
+                memberIndexInMemberArray = i;
+                break;
+            }
+        }
+        if (memberIndexInMemberArray == -1) {
+            IO.println("The membership number does not exist");
+            return -1;
+        }
+        return memberIndexInMemberArray;
     }
 }
