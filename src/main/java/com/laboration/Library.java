@@ -66,10 +66,18 @@ public class Library {
             IO.println("The book is already borrowed");
             return;
         }
-        int memberIndexInMemberArray = getMemberIndexInMemberArray();
-        if (memberIndexInMemberArray == -1)
+        int membershipNumber;
+        try {
+            membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
+        } catch (NumberFormatException e) {
+            IO.println("Invalid input. Please enter a valid membership number");
             return;
-
+        }
+        int memberIndexInMemberArray = getMemberIndexInMemberArray(membershipNumber);
+        if (memberIndexInMemberArray == -1) {
+            IO.println("The membership number does not exist");
+            return;
+        }
         if (members[memberIndexInMemberArray].isAllowedToBorrow()) {
             booksBorrowingStatus[memberIndexInBorrowingArray] = memberIndexInMemberArray;
             members[memberIndexInMemberArray].addNumberOfBooksBorrowed();
@@ -87,16 +95,26 @@ public class Library {
         }
         String title = IO.readln("Enter the title of the book you want to return: ");
         int memberIndexInBorrowingArray = getMemberIndexInBorrowingArray(title);
-        if (memberIndexInBorrowingArray == -1)
+        if (memberIndexInBorrowingArray == -1) {
+            IO.println("The book does not exist in the library");
             return;
+            }
         if (booksBorrowingStatus[memberIndexInBorrowingArray] == -1) {
             IO.println("The book is not borrowed");
             return;
         }
-        int memberIndexInMemberArray = getMemberIndexInMemberArray();
-        if (memberIndexInMemberArray == -1)
+        int membershipNumber;
+        try {
+            membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
+        } catch (NumberFormatException e) {
+            IO.println("Invalid input. Please enter a valid membership number");
             return;
-
+        }
+        int memberIndexInMemberArray = getMemberIndexInMemberArray(membershipNumber);
+        if (memberIndexInMemberArray == -1) {
+            IO.println("The membership number does not exist");
+            return;
+        }
         if (members[memberIndexInMemberArray].equals(members[booksBorrowingStatus[memberIndexInBorrowingArray]])) {
             booksBorrowingStatus[memberIndexInBorrowingArray] = -1;
             members[memberIndexInMemberArray].decreaseNumberOfBooksBorrowed();
@@ -179,28 +197,6 @@ public class Library {
         booksBorrowingStatus = newBooksBorrowingStatus;
     }
 
-    private int getMemberIndexInMemberArray() {
-        int membershipNumber;
-        try {
-            membershipNumber = Integer.parseInt(IO.readln("Enter membership number of the borrower: "));
-        } catch (NumberFormatException e) {
-            IO.println("Invalid input. Please enter a valid membership number");
-            return -1;
-        }
-        int memberIndexInMemberArray = -1;
-        for (int i = 0; i < memberCount; i++) {
-            if (members[i].getMembershipNumber() == membershipNumber) {
-                memberIndexInMemberArray = i;
-                break;
-            }
-        }
-        if (memberIndexInMemberArray == -1) {
-            IO.println("The membership number does not exist");
-            return -1;
-        }
-        return memberIndexInMemberArray;
-    }
-
     private int getMemberIndexInBorrowingArray(String title) {
         int bookIndex = -1;
         int memberIndexInBorrowingArray = 1;
@@ -212,9 +208,19 @@ public class Library {
             memberIndexInBorrowingArray = memberIndexInBorrowingArray + 2;
         }
         if (bookIndex == -1) {
-            IO.println("The book does not exist in the library");
             return -1;
         }
         return memberIndexInBorrowingArray;
+    }
+
+    private int getMemberIndexInMemberArray(int membershipNumber) {
+        int memberIndexInMemberArray = -1;
+        for (int i = 0; i < memberCount; i++) {
+            if (members[i].getMembershipNumber() == membershipNumber) {
+                memberIndexInMemberArray = i;
+                break;
+            }
+        }
+        return memberIndexInMemberArray;
     }
 }
