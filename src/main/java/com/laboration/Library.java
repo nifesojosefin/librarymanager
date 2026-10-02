@@ -42,6 +42,7 @@ public class Library {
                 for (int i = 0; i < memberCount; i++) {
                     if (members[i].getMembershipNumber() == membershipNumber) {
                         IO.println("The membership number already exists. Please try again");
+                        return;
                     }
                 }
             members[memberCount] = new Member(membershipNumber, name);
