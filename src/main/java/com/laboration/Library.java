@@ -59,19 +59,9 @@ public class Library {
             return;
         }
         String title = IO.readln("Enter the title of the book you want to borrow: ");
-        int bookIndex = -1;
-        int memberIndexInBorrowingArray = 1;
-        for (int i = 0; i < bookCount; i++) {
-            if (books[i].getTitle().equalsIgnoreCase(title)) {
-                bookIndex = i;
-                break;
-            }
-            memberIndexInBorrowingArray = memberIndexInBorrowingArray + 2;
-        }
-        if (bookIndex == -1) {
-            IO.println("The book does not exist in the library");
+        int memberIndexInBorrowingArray = getMemberIndexInBorrowingArray(title);
+        if (memberIndexInBorrowingArray == -1)
             return;
-        }
         if (booksBorrowingStatus[memberIndexInBorrowingArray] != -1) {
             IO.println("The book is already borrowed");
             return;
@@ -96,17 +86,11 @@ public class Library {
             return;
         }
         String title = IO.readln("Enter the title of the book you want to return: ");
-        int bookIndex = -1;
-        int memberIndexInBorrowingArray = 1;
-        for (int i = 0; i < bookCount; i++) {
-            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[memberIndexInBorrowingArray] != -1) {
-                bookIndex = i;
-                break;
-            }
-            memberIndexInBorrowingArray = memberIndexInBorrowingArray + 2;
-        }
-        if (bookIndex == -1) {
-            IO.println("The book does not exist or is not borrowed");
+        int memberIndexInBorrowingArray = getMemberIndexInBorrowingArray(title);
+        if (memberIndexInBorrowingArray == -1)
+            return;
+        if (booksBorrowingStatus[memberIndexInBorrowingArray] == -1) {
+            IO.println("The book is not borrowed");
             return;
         }
         int memberIndexInMemberArray = getMemberIndexInMemberArray();
@@ -215,5 +199,22 @@ public class Library {
             return -1;
         }
         return memberIndexInMemberArray;
+    }
+
+    private int getMemberIndexInBorrowingArray(String title) {
+        int bookIndex = -1;
+        int memberIndexInBorrowingArray = 1;
+        for (int i = 0; i < bookCount; i++) {
+            if (books[i].getTitle().equalsIgnoreCase(title)) {
+                bookIndex = i;
+                break;
+            }
+            memberIndexInBorrowingArray = memberIndexInBorrowingArray + 2;
+        }
+        if (bookIndex == -1) {
+            IO.println("The book does not exist in the library");
+            return -1;
+        }
+        return memberIndexInBorrowingArray;
     }
 }
