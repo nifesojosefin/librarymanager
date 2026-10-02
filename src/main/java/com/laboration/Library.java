@@ -62,14 +62,18 @@ public class Library {
         int bookIndex = -1;
         int memberIndexInBorrowingArray = 1;
         for (int i = 0; i < bookCount; i++) {
-            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[memberIndexInBorrowingArray] == -1) {
+            if (books[i].getTitle().equalsIgnoreCase(title)) {
                 bookIndex = i;
                 break;
             }
             memberIndexInBorrowingArray = memberIndexInBorrowingArray + 2;
         }
         if (bookIndex == -1) {
-            IO.println("The book does not exist or is already borrowed");
+            IO.println("The book does not exist in the library");
+            return;
+        }
+        if (booksBorrowingStatus[memberIndexInBorrowingArray] != -1) {
+            IO.println("The book is already borrowed");
             return;
         }
         int membershipNumber;
