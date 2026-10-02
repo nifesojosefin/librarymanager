@@ -102,7 +102,9 @@ public class Library {
     }
 
     public void returnBook() {
-        if (isBooksBorrowed()) {
+        if (isNotAnyBooksBorrowed())
+            IO.println("Invalid operation. There are no borrowed books to return.");
+        else {
             String title = IO.readln("Enter the title of the book you want to return: ");
             for (int i = 0; i < bookCount; i++) {
                 if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[i + 1] != -1) {
@@ -113,8 +115,6 @@ public class Library {
                     IO.println("The book does not exist or is not borrowed");
             }
         }
-        else
-            IO.println("Invalid operation. There are no borrowed books to return.");
     }
 
     public void searchBook() {
@@ -156,12 +156,12 @@ public class Library {
             IO.println("Invalid operation. There are no books to show.");
     }
 
-    private boolean isBooksBorrowed() {
+    private boolean isNotAnyBooksBorrowed() {
         for (int i = 1; i <= bookCount; i = i + 2) {
             if (booksBorrowingStatus[i] != -1)
-                return true;
+                return false;
         }
-        return false;
+        return true;
     }
 
     private void expandBooksArray() {
