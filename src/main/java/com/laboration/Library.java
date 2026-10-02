@@ -60,8 +60,10 @@ public class Library {
         }
         String title = IO.readln("Enter the title of the book you want to borrow: ");
         int memberIndexInBorrowingArray = getMemberIndexInBorrowingArray(title);
-        if (memberIndexInBorrowingArray == -1)
+        if (memberIndexInBorrowingArray == -1) {
+            IO.println("The book does not exist in the library");
             return;
+        }
         if (booksBorrowingStatus[memberIndexInBorrowingArray] != -1) {
             IO.println("The book is already borrowed");
             return;

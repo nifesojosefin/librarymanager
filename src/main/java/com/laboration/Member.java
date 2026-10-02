@@ -32,7 +32,7 @@ public class Member {
     }
 
     public boolean isAllowedToBorrow() {
-        return numberOfBooksBorrowed <= 5;
+        return numberOfBooksBorrowed < 5;
     }
 
     public boolean isNotValidMembershipNumber(int membershipNumber) {
