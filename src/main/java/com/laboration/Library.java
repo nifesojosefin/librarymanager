@@ -60,13 +60,13 @@ public class Library {
         }
         String title = IO.readln("Enter the title of the book you want to borrow: ");
         int bookIndex = -1;
-        int memberIndex = 1;
+        int memberIndexInBorrowingArray = 1;
         for (int i = 0; i < bookCount; i++) {
-            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[memberIndex] == -1) {
+            if (books[i].getTitle().equalsIgnoreCase(title) && booksBorrowingStatus[memberIndexInBorrowingArray] == -1) {
                 bookIndex = i;
                 break;
             }
-            memberIndex = memberIndex + 2;
+            memberIndexInBorrowingArray = memberIndexInBorrowingArray + 2;
         }
         if (bookIndex == -1) {
             IO.println("The book does not exist or is already borrowed");
@@ -79,21 +79,21 @@ public class Library {
             IO.println("Invalid input. Please enter a valid membership number");
             return;
         }
-        int membershipIndex = -1;
+        int memberIndexInMemberArray = -1;
         for (int i = 0; i < memberCount; i++) {
             if (members[i].getMembershipNumber() == membershipNumber) {
-                membershipIndex = i;
+                memberIndexInMemberArray = i;
                 break;
             }
         }
-        if (membershipIndex == -1) {
+        if (memberIndexInMemberArray == -1) {
             IO.println("The membership number does not exist");
             return;
         }
 
-        if (members[membershipIndex].isAllowedToBorrow()) {
-            booksBorrowingStatus[memberIndex] = membershipIndex;
-            members[membershipIndex].addNumberOfBooksBorrowed();
+        if (members[memberIndexInMemberArray].isAllowedToBorrow()) {
+            booksBorrowingStatus[memberIndexInBorrowingArray] = memberIndexInMemberArray;
+            members[memberIndexInMemberArray].addNumberOfBooksBorrowed();
             IO.println("The book has been borrowed");
         }
         else
